@@ -4,3 +4,267 @@
 *:after {
   box-sizing: border-box;
 }
+
+/* Mobile first*/
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+  background-color: #ffffff; 
+}
+
+#wrapper {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto; 
+  padding: 1rem;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  overflow-x: hidden; 
+}
+
+/* Header */
+#top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-size:1.5rem;
+}
+
+#top-header .siteName a,
+#top-header #tools a {
+  text-decoration: none;   
+  color: #222;             
+  font-weight: bold;
+}
+
+nav ul {
+  list-style: none;
+  margin: 1rem 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  background: #222;
+  width: 100%;
+}
+
+nav ul li {
+  flex: 1; 
+  text-align: center;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  padding: 0.75rem 0.75rem;
+  display: block;
+  font-size: 1rem;
+}
+
+nav ul li a:hover {
+  background: #1565C0;
+}
+
+/* Sections */
+h2 {
+  margin-top: 0;
+}
+
+.delorean {
+  position: relative;     
+  margin: 2rem 0;
+  text-align: center;
+}
+
+.delorean img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.delorean .promo {
+  position: absolute;
+  top: 50%;           
+  left: 5%;            
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  padding: 2%;         
+  border-radius: 8px;
+  width: 35%;          
+  font-size: 3vw;      
+  max-width: 200px;    
+}
+
+.btn {
+  display: inline-block;
+  background: #0d51f0;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+/* Reviews */
+.reviews p {
+  margin: 0.5rem 0;
+  padding-left: 1.2rem;
+  position: relative;
+  font-size: 1rem;
+}
+
+.reviews p::before {
+  content: "➤";
+  position: absolute;
+  left: 0;
+  color: #0d51f0;
+  font-weight: bold;
+}
+
+.reviews span {
+  color: black;
+  font-size: 0.9rem;
+}
+
+/* Upgrades */
+.upgrades .grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.upgrades img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Reviews + Upgrades container */
+.reviews-upgrades {
+  display: flex;
+  flex-direction: column; 
+  gap: 2rem;
+}
+
+.upgrades .grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.upgrade-item {
+  background-color: #0d51f0;
+  padding: 0.75rem;               
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.upgrade-item img {
+  width: clamp(80px, 30vw, 120px);  
+  height: auto;
+  margin-bottom: 0.5rem;
+  object-fit: contain;
+}
+
+.upgrade-item a {
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* Footer */
+footer {
+  margin-top: 2rem;
+  text-align: left;
+  font-size: 1.5rem;
+  color: black;
+}
+
+footer .copyright {
+  margin: 0;
+}
+
+
+@media screen and (min-width: 768px) {
+  body {
+    background-image: url('/images/site/checkerboard.jpg');
+  }
+
+  #top-header {
+    font-size:2.5rem;
+  }
+
+  #wrapper {
+    width: 100%;
+    max-width: 1200px;
+    padding: 1rem;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    border: 5px solid #0d51f0;
+  }
+
+  nav ul {
+    justify-content: center;
+  }
+
+  nav ul li a {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+
+  .delorean {
+    position: relative;
+    margin: 2rem 0;
+    text-align: center;
+  }
+
+  .delorean img {
+    width: 100%;         
+    height: 60%;
+    display: block;
+  }
+
+  .delorean .promo {
+    top: 40%;          
+    left: 10%;
+    max-width: 250px;
+    font-size: 1.5rem;
+    padding: 1rem;
+  }
+
+  .reviews p {
+  
+  font-size: 1.5rem;
+}
+
+.reviews h3 {
+  font-size: 2rem;
+}
+
+.upgrades h3 {
+  font-size: 2rem;
+}
+  .reviews-upgrades {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 2rem;
+  }
+  .upgrades { order: 1; flex: 1; }
+  .reviews  { order: 2; flex: 1; }
+
+  .upgrade-item img {
+    width: clamp(100px, 10vw, 140px);
+  }
+
+  footer {
+    margin-top: 3rem;
+  }
+}
