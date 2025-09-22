@@ -13,13 +13,14 @@ const static = require("./routes/static")
 const baseController = require("./controllers/baseController")
 const inventoryRoute = require("./routes/inventoryRoute")
 const utilities = require("./utilities/")
-
+const errorRoute = require("./routes/errorRoute") /*task3: to add intentional error*/
 
 
 /* ***********************
  * View Engine and Templates
  *************************/
 app.set("view engine", "ejs")
+app.use(express.static("public"))  // Added to display the favicon
 app.use(expressLayouts)
 app.set("layout", "./layouts/layout") // not at views root
 
@@ -36,6 +37,9 @@ app.use(static)
 app.get("/", utilities.handleErrors(baseController.buildHome))
 // Inventory routes
 app.use("/inv", inventoryRoute)
+
+// Error Route (task3)
+app.use("/error", errorRoute)
 
 // File Not Found Route - must be last route in list
 app.use(async (req, res, next) => {
