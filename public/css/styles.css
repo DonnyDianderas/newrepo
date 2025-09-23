@@ -258,6 +258,152 @@ footer .copyright {
   color: #0d51f0;;
 }
 
+/* Flash messages */
+ul.messages {
+  list-style: none;
+  margin: 1rem 0;
+  padding: 0;
+}
+
+.notice {
+  color: red;
+  font-weight: bold;
+}
+
+.error {
+  color: darkred;
+  font-weight: bold;
+  background: #ffe5e5;
+  padding: 0.5rem;
+  border-radius: 5px;
+}
+
+/*Form account*/
+form {
+  max-width: 400px;
+  margin: 1rem auto;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-weight: bold;
+}
+
+input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+}
+
+button {
+  padding: 0.7rem 1.5rem;
+  background: #0077cc;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 0.8rem;
+}
+
+button:hover {
+  background: #005fa3;
+}
+
+/* Register Form */
+#register-form {
+  max-width: 450px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+#register-form h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #0d51f0;
+  font-size: 1.8rem;
+}
+
+#register-form .form-group {
+  margin-bottom: 1.2rem;
+}
+
+#register-form label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+  color: #333;
+}
+
+#register-form input {
+  width: 100%;
+  padding: 0.7rem;
+  border: 1px solid #aaa;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border 0.2s;
+}
+
+#register-form input:focus {
+  border-color: #0d51f0;
+  outline: none;
+  box-shadow: 0 0 4px rgba(13, 81, 240, 0.3);
+}
+
+#register-form button {
+  width: 100%;
+  padding: 0.9rem;
+  background: #0d51f0;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#register-form button:hover {
+  background: #0b46c9;
+}
+
+/* Toggle password button */
+#register-form .toggle-btn {
+  margin-top: 0.5rem;
+  display: inline-block;
+  font-size: 0.9rem;
+  background: none;
+  color: #0077cc;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+}
+
+#register-form .toggle-btn:hover {
+  color: #005fa3;
+}
+
+/* Flash messages inside form */
+#register-form .messages {
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+
 
 @media screen and (min-width: 768px) {
   body {
