@@ -2,8 +2,7 @@
 
   <main>
     <!-- Show flash messages if they exist -->
-    <%- messages('notice', locals) %>
-      <%- messages('error', locals) %>
+   <%- messages() %>
 
         <title>
           <%= title %>
@@ -23,8 +22,7 @@
           <input type="email" id="account_email" name="account_email" required>
 
           <label for="account_password">Password</label>
-          <input type="password" id="account_password" name="account_password" required minlength="12"
-            pattern="(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{12,}">
+          <input type="password" id="account_password" name="account_password" required >
 
           <button type="submit">Register</button>
         </form>
