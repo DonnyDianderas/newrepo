@@ -2,28 +2,50 @@
 
   <main>
     <!-- Show flash messages if they exist -->
-   <%- messages() %>
+    <%- messages() %>
+      <% if (errors) { %>
+        <ul class="notice">
+          <% errors.array().forEach(error=> { %>
+            <li>
+              <%= error.msg %>
+            </li>
+            <% }) %>
+        </ul>
+        <% } %>
 
-        <title>
-          <%= title %>
-        </title>
-        <h1>
-          <%= title %>
-        </h1>
+          <h1>
+            <%= title %>
+          </h1>
 
-        <form action="/account/register" method="post">
-          <label for="account_firstname">First Name</label>
-          <input type="text" id="account_firstname" name="account_firstname" required>
+          <form action="/account/register" method="post">
+            <!-- First Name -->
+            <label for="account_firstname">First Name</label>
+            <input type="text" id="account_firstname" name="account_firstname" required
+              placeholder="Enter your first name">
 
-          <label for="account_lastname">Last Name</label>
-          <input type="text" id="account_lastname" name="account_lastname" required>
+            <!-- Last Name -->
+            <label for="account_lastname">Last Name</label>
+            <input type="text" id="account_lastname" name="account_lastname" required
+              placeholder="Enter your last name">
 
-          <label for="account_email">Email</label>
-          <input type="email" id="account_email" name="account_email" required>
+            <!-- Email -->
+            <label for="account_email">Email</label>
+            <input type="email" id="account_email" name="account_email" required
+              placeholder="Enter a valid email address">
 
-          <label for="account_password">Password</label>
-          <input type="password" id="account_password" name="account_password" required >
+            <!-- Password -->
+            <div class="form-group">
+              <label for="accountPassword">Password:</label>
+              <span class="password-hint">
+                Password must be at least 12 characters and include 1 number,
+                1 uppercase letter, and 1 special character.
+              </span>
+              <input type="password" name="account_password" id="accountPassword" required
+                placeholder="Enter your password"
+                pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$">
+            </div>
 
-          <button type="submit">Register</button>
-        </form>
+            <!-- Submit button -->
+            <button type="submit">Register</button>
+          </form>
   </main>
