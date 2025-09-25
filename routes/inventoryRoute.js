@@ -11,4 +11,10 @@ router.get("/type/:classificationId", utilities.handleErrors(invController.build
 router.get("/detail/:invId", 
   utilities.handleErrors(invController.buildByInventoryId));
 
+/* ***************************
+ *  WEEK 04: TASK1: Route to build Vehicle Management View
+ * ************************** */
+router.get("/", utilities.handleErrors(invController.buildManagement));
+
+
 module.exports = router;
