@@ -20,18 +20,20 @@
           <form action="/account/register" method="post">
             <!-- First Name -->
             <label for="account_firstname">First Name</label>
-            <input type="text" id="account_firstname" name="account_firstname" required
-              placeholder="Enter your first name">
+            <input type="text" name="account_firstname" id="accountFirstname" required value="<%= locals.account_firstname %>">
 
             <!-- Last Name -->
             <label for="account_lastname">Last Name</label>
-            <input type="text" id="account_lastname" name="account_lastname" required
-              placeholder="Enter your last name">
+            <input type="text" id="account_lastname" name="account_lastname"
+            id="accountLastname" required value="<%= locals.account_lastname %>">
+            <!--placeholder="Enter your last name"-->
 
             <!-- Email -->
             <label for="account_email">Email</label>
-            <input type="email" id="account_email" name="account_email" required
-              placeholder="Enter a valid email address">
+            <input type="email" id="account_email" name="account_email"
+            id="accountEmail" required 
+            value="<%= locals.account_email %>">
+            <!--placeholder="Enter a valid email address"-->
 
             <!-- Password -->
             <div class="form-group">
