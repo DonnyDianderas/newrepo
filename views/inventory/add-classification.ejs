@@ -1,0 +1,44 @@
+<main>
+  <!-- Flash messages -->
+  <% if (messages && messages.length > 0) { %>
+    <div class="notice">
+      <% messages.forEach(function(msg) { %>
+        <p><%= msg %></p>
+      <% }); %>
+    </div>
+  <% } %>
+
+  <!-- Validation errors -->
+  <% if (errors && errors.length > 0) { %>
+    <ul class="notice error">
+      <% errors.forEach(function(error) { %>
+        <li><%= error.msg %></li>
+      <% }); %>
+    </ul>
+  <% } %>
+
+  <h1>Add New Classification</h1>
+
+  <form id="addClassificationForm" action="/inv/add-classification" method="POST">
+    <label for="classification_name">Classification Name:</label>
+    <input 
+      type="text" 
+      id="classification_name" 
+      name="classification_name" 
+      value="<%= typeof classification_name !== 'undefined' ? classification_name : '' %>" 
+      required
+    >
+    <button type="submit">Add Classification</button>
+  </form>
+</main>
+
+
+
+
+
+
+
+
+
+
+

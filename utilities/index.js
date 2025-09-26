@@ -1,4 +1,5 @@
 const invModel = require("../models/inventory-model")
+const { body, validationResult } = require("express-validator")
 const Util = {}
 
 /* ************************
@@ -94,6 +95,37 @@ Util.buildVehicleDetail = async function(vehicle) {
  * General Error Handling
  **************************************** */
 Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
+
+/* ****************************************
+ * Week4_task2: Validation Rules for Classification
+ **************************************** */
+Util.classificationRules = () => {
+  return [
+    body("classification_name")
+      .trim()
+      .notEmpty()
+      .withMessage("Please provide a classification name.")
+      .matches(/^[A-Za-z0-9]+$/)
+      .withMessage("Classification name cannot contain spaces or special characters."),
+  ]
+}
+
+/* ****************************************
+ * Week4_task2: Check Classification Data and Return Errors
+ **************************************** */
+Util.checkClassificationData = async (req, res, next) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    let nav = await Util.getNav()
+    res.render("./inventory/add-classification", {
+      title: "Add New Classification",
+      nav,
+      errors: errors.array(),
+    })
+    return
+  }
+  next()
+}
 
 module.exports = Util
 

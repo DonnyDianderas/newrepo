@@ -1,4 +1,22 @@
 <main>
+  <!-- Flash messages -->
+  <% if (messages && messages.length > 0) { %>
+    <div class="notice">
+      <% messages.forEach(function(msg) { %>
+        <p><%= msg %></p>
+      <% }); %>
+    </div>
+  <% } %>
+
+  <!-- Validation errors -->
+  <% if (errors && errors.length > 0) { %>
+    <ul class="notice error">
+      <% errors.forEach(function(error) { %>
+        <li><%= error.msg %></li>
+      <% }); %>
+    </ul>
+  <% } %>
+
   <h1>Vehicle Management</h1>
 
   <ul>
@@ -6,5 +24,7 @@
     <li><a href="/inv/add-inventory">Add New Inventory</a></li>
   </ul>
 </main>
+
+
 
   

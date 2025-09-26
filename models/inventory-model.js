@@ -43,8 +43,23 @@ async function getVehicleById(inv_id) {
   }
 }
 
+/* ***************************
+ *  week4_ TASK2: Insert a new classification into the database
+ * ***************************/
+async function addClassification(classification_name) {
+  try {
+    const sql = "INSERT INTO public.classification (classification_name) VALUES ($1) RETURNING *"
+    const data = await pool.query(sql, [classification_name])
+    return data.rows[0]
+  } catch (error) {
+    console.error("addClassification error " + error)
+  }
+}
+
 module.exports = {
   getClassifications,
   getInventoryByClassificationId,
-  getVehicleById};
+  getVehicleById,
+  addClassification
+};
 

@@ -16,5 +16,27 @@ router.get("/detail/:invId",
  * ************************** */
 router.get("/", utilities.handleErrors(invController.buildManagement));
 
+/* ***************************
+ *  Week 04: Task2 - Add Classification View
+ * ************************** */
+router.get(
+  "/add-classification",
+  utilities.handleErrors(async (req, res) => {
+    let nav = await utilities.getNav()
+    res.render("./inventory/add-classification", {
+      title: "Add New Classification",
+      nav,
+      messages: req.flash(), 
+      errors: null
+    })
+  })
+);
+
+// Route to process the Add Classification form submission (POST)
+router.post(
+  "/add-classification",
+  utilities.classificationRules(), 
+  utilities.checkClassificationData,
+  utilities.handleErrors(invController.addClassification));
 
 module.exports = router;
