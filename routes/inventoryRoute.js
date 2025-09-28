@@ -1,42 +1,69 @@
-// Needed Resources 
-const express = require("express")
-const router = new express.Router() 
-const invController = require("../controllers/invController")
-const utilities = require("../utilities/") //task3: Import utilities to apply error handling to my routes
+const express = require("express");
+const router = new express.Router();
+const invController = require("../controllers/invController");
+const utilities = require("../utilities/");
 
-// Route to build inventory by classification view
-router.get("/type/:classificationId", utilities.handleErrors(invController.buildByClassificationId));
+// Route: Build inventory by classification view
+router.get(
+  "/type/:classificationId",
+  utilities.handleErrors(invController.buildByClassificationId)
+);
 
-// Task3: Route to build inventory detail view by vehicle id
-router.get("/detail/:invId", 
-  utilities.handleErrors(invController.buildByInventoryId));
+// Route: Build inventory detail view by vehicle id
+router.get(
+  "/detail/:invId",
+  utilities.handleErrors(invController.buildByInventoryId)
+);
 
-/* ***************************
- *  WEEK 04: TASK1: Route to build Vehicle Management View
- * ************************** */
-router.get("/", utilities.handleErrors(invController.buildManagement));
+// Route: Inventory Management View
+router.get(
+  "/",
+  utilities.handleErrors(invController.buildManagement)
+);
 
-/* ***************************
- *  Week 04: Task2 - Add Classification View
- * ************************** */
+// Route: Add Classification Form
 router.get(
   "/add-classification",
   utilities.handleErrors(async (req, res) => {
-    let nav = await utilities.getNav()
+    let nav = await utilities.getNav();
     res.render("./inventory/add-classification", {
       title: "Add New Classification",
       nav,
-      messages: req.flash(), 
-      errors: null
-    })
+      errors: null,
+      classification_name: ""
+    });
   })
 );
 
-// Route to process the Add Classification form submission (POST)
+// Route: Process Add Classification form submission
 router.post(
   "/add-classification",
-  utilities.classificationRules(), 
+  utilities.classificationRules(),
   utilities.checkClassificationData,
-  utilities.handleErrors(invController.addClassification));
+  utilities.handleErrors(invController.addClassification)
+);
+
+// Route: Add Inventory Form
+router.get(
+  "/add-inventory",
+  utilities.handleErrors(async (req, res) => {
+    let nav = await utilities.getNav();
+    let classificationSelect = await utilities.buildClassificationList();
+    res.render("./inventory/add-inventory", {
+      title: "Add New Inventory Item",
+      nav,
+      classificationSelect,
+      errors: null
+    });
+  })
+);
+
+// Route: Process Add Inventory form submission
+router.post(
+  "/add-inventory",
+  utilities.inventoryRules(),
+  utilities.checkInventoryData,
+  utilities.handleErrors(invController.addInventory)
+);
 
 module.exports = router;

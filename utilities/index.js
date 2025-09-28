@@ -127,5 +127,86 @@ Util.checkClassificationData = async (req, res, next) => {
   next()
 }
 
+/* ************************
+ * Week4_task3: Build Classification Select List
+ (Used in Add Inventory form)
+ *********************** */
+Util.buildClassificationList = async function (classification_id = null) {
+  let data = await invModel.getClassifications()
+  let classificationList =
+    '<select name="classification_id" id="classificationList" required>'
+  classificationList += "<option value=''>Choose a Classification</option>"
+  data.rows.forEach((row) => {
+    classificationList += '<option value="' + row.classification_id + '"'
+    if (
+      classification_id != null &&
+      row.classification_id == classification_id
+    ) {
+      classificationList += " selected "
+    }
+    classificationList += ">" + row.classification_name + "</option>"
+  })
+  classificationList += "</select>"
+  return classificationList
+}
+
+/* ********************************
+ * Week4_task3: Validation Rules for Inventory
+ ***********************************/
+Util.inventoryRules = () => {
+  return [
+    body("inv_make").trim().notEmpty().withMessage("Please provide a make."),
+    body("inv_model").trim().notEmpty().withMessage("Please provide a model."),
+    body("inv_year")
+      .isInt({ min: 1900, max: 2099 })
+      .withMessage("Year must be a valid number between 1900 and 2099."),
+    body("inv_description")
+      .trim()
+      .notEmpty()
+      .withMessage("Please provide a description."),
+    body("inv_image")
+      .trim()
+      .notEmpty()
+      .withMessage("Please provide an image path."),
+    body("inv_thumbnail")
+      .trim()
+      .notEmpty()
+      .withMessage("Please provide a thumbnail path."),
+    body("inv_price")
+      .isFloat({ min: 0 })
+      .withMessage("Price must be a positive number."),
+    body("inv_miles")
+      .isInt({ min: 0 })
+      .withMessage("Miles must be a positive integer."),
+    body("inv_color").trim().notEmpty().withMessage("Please provide a color."),
+    body("classification_id")
+      .isInt({ min: 1 })
+      .withMessage("Please select a valid classification."),
+  ]
+}
+
+/* *******************************
+ *  Week4_task3: Check Inventory Data and Return Errors
+ **************************************** */
+Util.checkInventoryData = async (req, res, next) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    let nav = await Util.getNav()
+    let classificationSelect = await Util.buildClassificationList(
+      req.body.classification_id
+    )
+    res.render("./inventory/add-inventory", {
+      title: "Add New Inventory Item",
+      nav,
+      classificationSelect,
+      errors: errors.array(),
+      ...req.body, 
+    })
+    return
+  }
+  next()
+}
+
+
 module.exports = Util
 
