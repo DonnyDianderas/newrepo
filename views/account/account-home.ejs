@@ -1,0 +1,20 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+<main>
+  <% if (messages && messages.notice) { %>
+    <div class="notice"><%= messages.notice %></div>
+  <% } %>
+
+  <% if (errors && errors.length > 0) { %>
+    <ul class="notice error">
+      <% errors.forEach(error => { %>
+        <li><%= error.msg %></li>
+      <% }) %>
+    </ul>
+  <% } %>
+
+  <h1>You're logged in</h1>
+</main>
+
+<%- include('../partials/footer') %>
