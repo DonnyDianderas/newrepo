@@ -17,6 +17,20 @@
     <li><a href="/inv/add-classification">Add New Classification</a></li>
     <li><a href="/inv/add-inventory">Add New Inventory</a></li>
   </ul>
+
+  <h2>Manage Inventory</h2>
+  <p>Choose a Classification to see those inventory items.</p>
+
+  <!-- Classification list from controller -->
+  <%- classificationSelect %>
+
+  <!-- to inject inventory -->
+  <table id="inventoryDisplay"></table>
+
+  <noscript>JavaScript must be enabled to use this page.</noscript>
+
+  <script src="../../js/inventory.js"></script>
+
 </main>
 
 

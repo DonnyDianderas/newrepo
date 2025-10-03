@@ -28,12 +28,11 @@ router.post(
   utilities.handleErrors(accountController.accountLogin)
 )
 
-
-// Default account management view
+// Default account management view (protected with checkLogin)
 router.get(
   "/",
+  utilities.checkLogin, 
   utilities.handleErrors(accountController.buildAccountHome)
 )
-
 
 module.exports = router;
