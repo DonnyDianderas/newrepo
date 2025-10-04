@@ -321,6 +321,58 @@ invCont.updateInventory = async function (req, res, next) {
   }
 }
 
+/* ***************************
+ *  Build Delete Inventory View
+ * ************************** */
+invCont.buildDeleteInventoryView = async function (req, res, next) {
+  try {
+    const inv_id = parseInt(req.params.invId);
+    let nav = await utilities.getNav();
+
+    const itemData = await invModel.getVehicleById(inv_id);
+    if (!itemData) {
+      req.flash("error", "Vehicle not found.");
+      return res.redirect("/inv");
+    }
+
+    const itemName = `${itemData.inv_make} ${itemData.inv_model}`;
+
+    res.render("./inventory/delete-confirm", {
+      title: "Delete " + itemName,
+      nav,
+      errors: null,
+      inv_id: itemData.inv_id,
+      inv_make: itemData.inv_make,
+      inv_model: itemData.inv_model,
+      inv_year: itemData.inv_year,
+      inv_price: itemData.inv_price
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/* ***************************
+ *  Process Delete Inventory
+ * ************************** */
+invCont.deleteInventory = async function (req, res, next) {
+  try {
+    const inv_id = parseInt(req.body.inv_id);
+
+    const deleteResult = await invModel.deleteInventoryById(inv_id);
+
+    if (deleteResult) {
+      req.flash("success", "Vehicle deleted successfully.");
+      return res.redirect("/inv");
+    } else {
+      req.flash("error", "Unable to delete vehicle.");
+      return res.redirect(`/inv/delete/${inv_id}`);
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = invCont;
 
 

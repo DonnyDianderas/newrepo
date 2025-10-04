@@ -81,4 +81,16 @@ router.get(
 // week 5: Process the inventory update
 router.post("/update/", utilities.handleErrors(invController.updateInventory));
 
+// W5 Team Activity - Show delete confirmation view
+router.get(
+  "/delete/:invId",
+  utilities.handleErrors(invController.buildDeleteInventoryView)
+);
+
+// W5 Team Activity- Process the actual deletion
+router.post(
+  "/delete",
+  utilities.handleErrors(invController.deleteInventory)
+);
+
 module.exports = router;
