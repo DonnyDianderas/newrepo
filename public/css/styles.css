@@ -319,6 +319,13 @@ button:hover {
   background: #005fa3;
 }
 
+button:disabled {
+  background: #ccc;
+  color: #666;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 /* Register Form */
 #register-form {
   max-width: 450px;

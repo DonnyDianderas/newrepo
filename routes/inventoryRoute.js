@@ -21,6 +21,12 @@ router.get(
   utilities.handleErrors(invController.buildManagement)
 );
 
+// Week 5 Update Inventory Information (Step 1)Route: Edit Inventory Item by ID
+router.get(
+  "/edit/:invId",
+  utilities.handleErrors(invController.buildEditInventoryView)
+);
+
 // Route: Add Classification Form
 router.get(
   "/add-classification",
@@ -71,5 +77,8 @@ router.get(
   "/getInventory/:classification_id",
   utilities.handleErrors(invController.getInventoryJSON)
 );
+
+// week 5: Process the inventory update
+router.post("/update/", utilities.handleErrors(invController.updateInventory));
 
 module.exports = router;

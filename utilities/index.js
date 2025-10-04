@@ -211,6 +211,30 @@ Util.checkInventoryData = async (req, res, next) => {
   next()
 }
 
+/* *******************************
+ *  Week5_Update Inventory Information (Step 2): Check Update Data and Return Errors to Edit View
+ **************************************** */
+Util.checkUpdateData = async (req, res, next) => {
+  const errors = validationResult(req)
+  const { inv_id } = req.body  
+  if (!errors.isEmpty()) {
+    let nav = await Util.getNav()
+    let classificationSelect = await Util.buildClassificationList(
+      req.body.classification_id
+    )
+    res.render("./inventory/edit-inventory", {
+      title: `Edit ${req.body.inv_make} ${req.body.inv_model}`,  
+      nav,
+      classificationSelect,
+      errors: errors.array(),
+      inv_id, 
+      ...req.body, 
+    })
+    return
+  }
+  next()
+}
+
 /* ****************************************
 * Middleware to check token validity
 **************************************** */
