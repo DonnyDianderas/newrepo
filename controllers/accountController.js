@@ -147,7 +147,8 @@ async function buildAccountHome(req, res, next) {
     title: "Account Management",
     nav,
     errors: null,
-    accountData: res.locals.accountData
+    accountData: res.locals.accountData,
+    messages: req.flash()
   });
 }
 
@@ -155,13 +156,21 @@ async function buildAccountHome(req, res, next) {
 *  WEEK5 task4 Build Update Account View
 * ************************************ */
 async function buildAccountUpdate(req, res, next) {
-  let nav = await utilities.getNav()
+  let nav = await utilities.getNav();
+  const accountId = req.params.accountId;
+  const accountData = await accountModel.getAccountById(accountId); 
+  
+  if (!accountData) {
+    req.flash("notice", "Account not found.");
+    return res.redirect("/account/");
+  }
   res.render("account/update-account", {
     title: "Update Account Information",
     nav,
     errors: null,
-    accountData: res.locals.accountData
-  })
+    messages: { notice: req.flash("notice") },
+    accountData
+  });
 }
 
 /* ****************************************
@@ -180,7 +189,7 @@ async function updateAccount(req, res) {
 
   if (updateResult) {
     req.flash("notice", "Your account information was successfully updated.")
-    return res.redirect("/account/")
+    return res.redirect("/account")
   } else {
     req.flash("notice", "Sorry, the update failed.")
     return res.render("account/update-account", {
