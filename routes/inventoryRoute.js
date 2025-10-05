@@ -3,6 +3,12 @@ const router = new express.Router();
 const invController = require("../controllers/invController");
 const utilities = require("../utilities/");
 
+router.use(utilities.checkJWTToken);
+
+/* ==============================
+   PUBLIC ROUTES (no login)
+============================== */
+
 // Route: Build inventory by classification view
 router.get(
   "/type/:classificationId",
@@ -15,21 +21,34 @@ router.get(
   utilities.handleErrors(invController.buildByInventoryId)
 );
 
+// Route: Return inventory in JSON by classification_id
+router.get(
+  "/getInventory/:classification_id",
+  utilities.handleErrors(invController.getInventoryJSON)
+);
+
+/* ==============================
+   PROTECTED ROUTES (Employee/Admin)
+============================== */
+
 // Route: Inventory Management View
 router.get(
   "/",
+  utilities.checkAccountType,
   utilities.handleErrors(invController.buildManagement)
 );
 
 // Week 5 Update Inventory Information (Step 1)Route: Edit Inventory Item by ID
 router.get(
   "/edit/:invId",
+  utilities.checkAccountType,
   utilities.handleErrors(invController.buildEditInventoryView)
 );
 
 // Route: Add Classification Form
 router.get(
   "/add-classification",
+  utilities.checkAccountType,
   utilities.handleErrors(async (req, res) => {
     let nav = await utilities.getNav();
     res.render("./inventory/add-classification", {
@@ -44,6 +63,7 @@ router.get(
 // Route: Process Add Classification form submission
 router.post(
   "/add-classification",
+  utilities.checkAccountType,
   utilities.classificationRules(),
   utilities.checkClassificationData,
   utilities.handleErrors(invController.addClassification)
@@ -52,6 +72,7 @@ router.post(
 // Route: Add Inventory Form
 router.get(
   "/add-inventory",
+  utilities.checkAccountType,
   utilities.handleErrors(async (req, res) => {
     let nav = await utilities.getNav();
     let classificationSelect = await utilities.buildClassificationList();
@@ -67,29 +88,30 @@ router.get(
 // Route: Process Add Inventory form submission
 router.post(
   "/add-inventory",
+  utilities.checkAccountType,
   utilities.inventoryRules(),
   utilities.checkInventoryData,
   utilities.handleErrors(invController.addInventory)
 );
 
-// Route: Return inventory in JSON by classification_id
-router.get(
-  "/getInventory/:classification_id",
-  utilities.handleErrors(invController.getInventoryJSON)
-);
-
 // week 5: Process the inventory update
-router.post("/update/", utilities.handleErrors(invController.updateInventory));
+router.post(
+  "/update/",
+  utilities.checkAccountType,
+  utilities.handleErrors(invController.updateInventory)
+);
 
 // W5 Team Activity - Show delete confirmation view
 router.get(
   "/delete/:invId",
+  utilities.checkAccountType,
   utilities.handleErrors(invController.buildDeleteInventoryView)
 );
 
 // W5 Team Activity- Process the actual deletion
 router.post(
   "/delete",
+  utilities.checkAccountType,
   utilities.handleErrors(invController.deleteInventory)
 );
 

@@ -54,6 +54,24 @@ app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-
 app.use(cookieParser())
 app.use(utilities.checkJWTToken)
 
+// w5. Personal activity:Middleware to check for a JWT cookie, verify it, and make account data available to all views via res.locals.accountData
+app.use(async (req, res, next) => {
+  const jwt = require("jsonwebtoken");
+  const token = req.cookies.jwt;
+  if (token) {
+    try {
+      const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+      res.locals.accountData = decoded;
+    } catch (err) {
+      res.locals.accountData = null;
+    }
+  } else {
+    res.locals.accountData = null;
+  }
+  next();
+});
+
+
 /* ***********************
  * Routes
  *************************/

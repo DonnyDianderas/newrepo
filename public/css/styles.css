@@ -1,11 +1,11 @@
-/******* Change Box Model ***************/
+/************** Change Box Model **************/
 *,
 *:before,
 *:after {
   box-sizing: border-box;
 }
 
-/* Mobile first*/
+/************** Global Styles **************/
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -24,13 +24,13 @@ body {
   overflow-x: hidden; 
 }
 
-/* Header */
+/************** Header **************/
 #top-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
-  font-size:1.5rem;
+  font-size: 1.5rem;
 }
 
 #top-header .siteName a,
@@ -40,6 +40,7 @@ body {
   font-weight: bold;
 }
 
+/************** Navigation **************/
 nav ul {
   list-style: none;
   margin: 1rem 0;
@@ -58,7 +59,7 @@ nav ul li {
 nav ul li a {
   color: #fff;
   text-decoration: none;
-  padding: 0.75rem 0.75rem;
+  padding: 0.75rem;
   display: block;
   font-size: 1rem;
 }
@@ -67,7 +68,7 @@ nav ul li a:hover {
   background: #1565C0;
 }
 
-/* Sections */
+/************** Sections **************/
 h2 {
   margin-top: 0;
 }
@@ -98,6 +99,7 @@ h2 {
   max-width: 200px;    
 }
 
+/************** Buttons **************/
 .btn {
   display: inline-block;
   background: #0d51f0;
@@ -107,7 +109,7 @@ h2 {
   border-radius: 4px;
 }
 
-/* Reviews */
+/************** Reviews **************/
 .reviews p {
   margin: 0.5rem 0;
   padding-left: 1.2rem;
@@ -128,29 +130,16 @@ h2 {
   font-size: 0.9rem;
 }
 
-/* Upgrades */
+/************** Upgrades **************/
 .upgrades .grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
 }
 
 .upgrades img {
   max-width: 100%;
   display: block;
-}
-
-/* Reviews + Upgrades container */
-.reviews-upgrades {
-  display: flex;
-  flex-direction: column; 
-  gap: 2rem;
-}
-
-.upgrades .grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
 }
 
 .upgrade-item {
@@ -177,7 +166,14 @@ h2 {
   text-decoration: none;
 }
 
-/* Footer */
+/************** Reviews + Upgrades container **************/
+.reviews-upgrades {
+  display: flex;
+  flex-direction: column; 
+  gap: 2rem;
+}
+
+/************** Footer **************/
 footer {
   margin-top: 2rem;
   text-align: left;
@@ -189,8 +185,7 @@ footer .copyright {
   margin: 0;
 }
 
-/*task2: */
-/* Classification grid (responsive) */
+/************** Classification grid (Task 2) **************/
 #inv-display {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -234,7 +229,7 @@ footer .copyright {
   color: #0d51f0;
 }
 
-/*task3:*/
+/************** Inventory Detail (Task 3) **************/
 #inv-detail {
   display: flex;
   flex-direction: column;
@@ -255,10 +250,10 @@ footer .copyright {
 #inv-detail .price {
   font-size: 1.3rem;
   font-weight: bold;
-  color: #0d51f0;;
+  color: #0d51f0;
 }
 
-/* Flash messages */
+/************** Flash messages **************/
 ul.messages {
   list-style: none;
   margin: 1rem 0;
@@ -278,7 +273,7 @@ ul.messages {
   border-radius: 5px;
 }
 
-/*Form account*/
+/************** Forms **************/
 form {
   max-width: 400px;
   margin: 1rem auto;
@@ -326,7 +321,7 @@ button:disabled {
   cursor: not-allowed;
 }
 
-/* Register Form */
+/************** Register Form **************/
 #register-form {
   max-width: 450px;
   margin: 2rem auto;
@@ -387,7 +382,6 @@ button:disabled {
   background: #0b46c9;
 }
 
-/* Toggle password button */
 #register-form .toggle-btn {
   margin-top: 0.5rem;
   display: inline-block;
@@ -404,25 +398,39 @@ button:disabled {
   color: #005fa3;
 }
 
-/* Flash messages inside form */
 #register-form .messages {
   margin-bottom: 1rem;
   font-size: 0.95rem;
 }
 
+/************** Welcome message **************/
+#welcome-message {
+  font-weight: bold;
+  font-size: 1.1em;
+  margin-right: 15px;
+}
 
+.logout-link {
+  font-size: 0.7em;
+  color: red;
+  margin-left: 10px;
+}
 
+#tools a {
+  margin-left: 10px;
+}
+
+/************** Responsive Styles **************/
 @media screen and (min-width: 768px) {
   body {
     background-image: url('/images/site/checkerboard.jpg');
   }
 
   #top-header {
-    font-size:2.5rem;
+    font-size: 2.5rem;
   }
 
   #wrapper {
-    width: 100%;
     max-width: 1200px;
     padding: 1rem;
     background-color: #f5f5f5;
@@ -442,18 +450,6 @@ button:disabled {
     font-size: 2rem;
   }
 
-  .delorean {
-    position: relative;
-    margin: 2rem 0;
-    text-align: center;
-  }
-
-  .delorean img {
-    width: 100%;         
-    height: 60%;
-    display: block;
-  }
-
   .delorean .promo {
     top: 40%;          
     left: 10%;
@@ -463,24 +459,22 @@ button:disabled {
   }
 
   .reviews p {
-  
-  font-size: 1.5rem;
-}
+    font-size: 1.5rem;
+  }
 
-.reviews h3 {
-  font-size: 2rem;
-}
+  .reviews h3,
+  .upgrades h3 {
+    font-size: 2rem;
+  }
 
-.upgrades h3 {
-  font-size: 2rem;
-}
   .reviews-upgrades {
     flex-direction: row;
     align-items: stretch;
     gap: 2rem;
   }
+
   .upgrades { order: 1; flex: 1; }
-  .reviews  { order: 2; flex: 1; }
+  .reviews { order: 2; flex: 1; }
 
   .upgrade-item img {
     width: clamp(100px, 10vw, 140px);
@@ -490,11 +484,11 @@ button:disabled {
     margin-top: 3rem;
   }
 
-  /*TASK 3:*/
-   #inv-detail {
+  #inv-detail {
     flex-direction: row;
     align-items: flex-start;
   }
+
   #inv-detail figure, 
   #inv-detail .inv-info {
     flex: 1;

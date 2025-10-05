@@ -1,10 +1,57 @@
 const invModel = require("../models/inventory-model")
 const { body, validationResult } = require("express-validator")
-
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
 
 const Util = {}
+
+/* ****************************************
+* Middleware to check token validity
+**************************************** */
+Util.checkJWTToken = (req, res, next) => {
+ if (req.cookies.jwt) {
+  jwt.verify(
+   req.cookies.jwt,
+   process.env.ACCESS_TOKEN_SECRET,
+   function (err, accountData) {
+    if (err) {
+     req.flash("Please log in")
+     res.clearCookie("jwt")
+     return res.redirect("/account/login")
+    }
+    res.locals.accountData = accountData
+    res.locals.loggedin = 1
+    next()
+   })
+ } else {
+  next()
+ }
+}
+
+
+ /* ****************************************
+ * week5, Personal Activity: Middleware to check account type
+ **************************************** */
+Util.checkAccountType = (req, res, next) => {
+  if (res.locals.accountData && 
+      (res.locals.accountData.account_type === "Employee" || res.locals.accountData.account_type === "Admin")) {
+    return next()
+  } 
+  req.flash("notice", "You do not have permission to access this page.")
+  return res.redirect("/account/login")
+}
+
+/* ****************************************
+ *  Check Login
+ * ************************************ */
+Util.checkLogin = (req, res, next) => {
+  if (res.locals.loggedin) {
+    next()
+  } else {
+    req.flash("notice", "Please log in.")
+    return res.redirect("/account/login")
+  }
+}
 
 /* ************************
  * Constructs the nav HTML unordered list
@@ -12,7 +59,6 @@ const Util = {}
 Util.getNav = async function (req, res, next) {
   let data = await invModel.getClassifications()
   let list = "<ul>"
-  //console.log(data)
   list += '<li><a href="/" title="Home page">Home</a></li>'
   data.rows.forEach((row) => {
     list += "<li>"
@@ -235,40 +281,76 @@ Util.checkUpdateData = async (req, res, next) => {
   next()
 }
 
-/* ****************************************
-* Middleware to check token validity
+/* ***************************************
+* WEEK5 (Task 4) Validation Rules for Account Update 
 **************************************** */
-Util.checkJWTToken = (req, res, next) => {
- if (req.cookies.jwt) {
-  jwt.verify(
-   req.cookies.jwt,
-   process.env.ACCESS_TOKEN_SECRET,
-   function (err, accountData) {
-    if (err) {
-     req.flash("Please log in")
-     res.clearCookie("jwt")
-     return res.redirect("/account/login")
-    }
-    res.locals.accountData = accountData
-    res.locals.loggedin = 1
-    next()
-   })
- } else {
-  next()
- }
+Util.accountUpdateRules = () => {
+  return [
+    body("account_firstname")
+      .trim()
+      .notEmpty()
+      .withMessage("First name is required."),
+    body("account_lastname")
+      .trim()
+      .notEmpty()
+      .withMessage("Last name is required."),
+    body("account_email")
+      .trim()
+      .isEmail()
+      .withMessage("A valid email is required.")
+  ]
 }
 
-/* ****************************************
- *  Check Login
- * ************************************ */
- Util.checkLogin = (req, res, next) => {
-  if (res.locals.loggedin) {
-    next()
-  } else {
-    req.flash("notice", "Please log in.")
-    return res.redirect("/account/login")
-  }
- }
+/****************************************
+ * Validation Rules for Password Change
+ ****************************************/
+Util.passwordRules = () => {
+  return [
+    body("account_password")
+      .trim()
+      .isLength({ min: 12 })
+      .withMessage("Password must be at least 12 characters.")
+      .matches(/\d/)
+      .withMessage("Password must contain at least one number.")
+      .matches(/[A-Z]/)
+      .withMessage("Password must contain at least one uppercase letter.")
+      .matches(/[^a-zA-Z0-9]/)
+      .withMessage("Password must contain at least one special character.")
+  ]
+}
 
+/****************************************
+ * Check Account Update Data
+ ****************************************/
+Util.checkAccountData = async (req, res, next) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    let nav = await Util.getNav()
+    return res.render("account/update-account", {
+      title: "Update Account Information",
+      nav,
+      errors: errors.array(),
+      accountData: req.body
+    })
+  }
+  next()
+}
+
+/****************************************
+ * Check Password Change Data
+ ****************************************/
+Util.checkPasswordData = async (req, res, next) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    let nav = await Util.getNav()
+    return res.render("account/update-account", {
+      title: "Update Account Information",
+      nav,
+      errors: errors.array(),
+      accountData: req.body
+    })
+  }
+  next()
+}
 module.exports = Util
 

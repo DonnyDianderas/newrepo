@@ -158,9 +158,10 @@ invCont.addInventory = async function (req, res, next) {
 
   try {
     const errors = validationResult(req);
+    let nav = await utilities.getNav();
+    let classificationSelect = await utilities.buildClassificationList(classification_id);
+
     if (!errors.isEmpty()) {
-      let nav = await utilities.getNav();
-      let classificationSelect = await utilities.buildClassificationList(classification_id);
       return res.render("./inventory/add-inventory", {
         title: "Add New Inventory Item",
         nav,
@@ -185,16 +186,16 @@ invCont.addInventory = async function (req, res, next) {
 
     if (result) {
       req.flash("notice", "Inventory item added successfully.");
-      let nav = await utilities.getNav();
+      classificationSelect = await utilities.buildClassificationList();
       return res.render("./inventory/management", {
         title: "Inventory Management",
         nav,
+        classificationSelect,
         errors: null
+        
       });
     } else {
       req.flash("error", "Sorry, adding inventory item failed.");
-      let nav = await utilities.getNav();
-      let classificationSelect = await utilities.buildClassificationList(classification_id);
       return res.render("./inventory/add-inventory", {
         title: "Add New Inventory Item",
         nav,
@@ -205,9 +206,9 @@ invCont.addInventory = async function (req, res, next) {
     }
   } catch (error) {
     console.error("addInventory error: " + error);
-    req.flash("error", "Error adding inventory item.");
     let nav = await utilities.getNav();
     let classificationSelect = await utilities.buildClassificationList(classification_id);
+    req.flash("error", "Error adding inventory item.");
     return res.render("./inventory/add-inventory", {
       title: "Add New Inventory Item",
       nav,
