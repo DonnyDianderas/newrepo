@@ -1,0 +1,47 @@
+<%- include('../partials/head') %>
+
+<main>
+  <h2>Manage Account Types</h2>
+
+  <% if (messages && messages.notice) { %>
+    <div class="notice"><%= messages.notice %></div>
+  <% } %>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Current Type</th>
+        <th>Change Type</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% accounts.forEach(account => { %>
+        <tr>
+          <td><%= account.account_id %></td>
+          <td><%= account.account_firstname %></td>
+          <td><%= account.account_lastname %></td>
+          <td><%= account.account_email %></td>
+          <td><%= account.account_type %></td>
+          <td>
+            <form action="/account/update-type" method="POST">
+              <input type="hidden" name="account_id" value="<%= account.account_id %>">
+              
+              <select name="account_type" required>
+                <option value="Client" <%= account.account_type === "Client" ? "selected" : "" %>>Client</option>
+                <option value="Employee" <%= account.account_type === "Employee" ? "selected" : "" %>>Employee</option>
+                <option value="Admin" <%= account.account_type === "Admin" ? "selected" : "" %>>Admin</option>
+              </select>
+
+              <button type="submit">Update</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</main>
+

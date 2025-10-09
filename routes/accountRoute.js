@@ -76,4 +76,23 @@ router.post(
   utilities.handleErrors(accountController.changePassword) 
 )
 
+/* ****************************************
+*  Week6 Additional Enhancement: Routes to
+Manage account types
+* ************************************ */
+
+// View Manage Account Types (Admin only)
+router.get(
+  "/manage-types",
+  utilities.checkLogin,
+  utilities.handleErrors(accountController.buildAccountTypePanel)
+);
+
+// Process Account Type Update
+router.post(
+  "/update-type",
+  utilities.checkLogin,
+  utilities.handleErrors(accountController.updateAccountType)
+);
+
 module.exports = router;

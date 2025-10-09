@@ -92,6 +92,41 @@ async function updatePassword(account_id, hashedPassword) {
   }
 }
 
+/* **************************************************************
+* Week6 Additional Enhancement: Update account type (Admin only)
+* ************************************************************* */
+async function updateAccountType(account_id, newType) {
+  try {
+    const sql = `
+      UPDATE account
+      SET account_type = $1
+      WHERE account_id = $2
+      RETURNING *`;
+    const result = await pool.query(sql, [newType, account_id]);
+    return result.rows[0];
+  } catch (error) {
+    console.error("updateAccountType error:", error);
+    return null;
+  }
+}
+
+/* **********************************************************
+* Week6 Additional Enhancement: Get all accounts (Admin only)
+* ******************************************************* */
+async function getAllAccounts() {
+  try {
+    const sql = `
+      SELECT account_id, account_firstname, account_lastname, account_email, account_type
+      FROM account
+      ORDER BY account_id`;
+    const result = await pool.query(sql);
+    return result.rows;
+  } catch (error) {
+    console.error("getAllAccounts error:", error);
+    return [];
+  }
+}
+
 module.exports = { 
   registerAccount, 
   checkExistingEmail, 
@@ -99,6 +134,8 @@ module.exports = {
   getAccountById, 
   updateAccount,
   updatePassword,
-  getAccountById
+  getAccountById,
+  updateAccountType,
+  getAllAccounts
 }
 

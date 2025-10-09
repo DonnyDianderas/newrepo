@@ -23,5 +23,12 @@
     <h3>Inventory Management</h3>
     <p><a href="/inv/">Go to Inventory Management</a></p>
   <% } %>
+
+    <!--Show admin-only tools if the logged-in user has an Admin account type:-->
+
+  <% if (accountData.account_type === "Admin") { %>
+    <h3>Admin Tools</h3>
+    <p><a href="/account/manage-types">Manage Account Types</a></p>
+  <% } %>
 </main>
 

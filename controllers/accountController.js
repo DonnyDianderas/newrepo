@@ -246,4 +246,49 @@ async function logoutAccount(req, res, next) {
   }
 }
 
-module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildAccountHome, logoutAccount, buildAccountUpdate, updateAccount, changePassword }
+/* ********************************************************************
+*   Week6 Additional Enhancement: View all accounts and manage types (Admin only)
+* ******************************************************************** */
+async function buildAccountTypePanel(req, res) {
+  let nav = await utilities.getNav();
+
+// Only Admins can see this page
+  if (res.locals.accountData.account_type !== "Admin") {
+    req.flash("notice", "You are not authorized to view this page.");
+    return res.redirect("/account/");
+  }
+
+  const accounts = await accountModel.getAllAccounts();
+  res.render("account/manage-types", {
+    title: "Manage Account Types",
+    nav,
+    errors: null,
+    messages: { notice: req.flash("notice") },
+    accounts
+  });
+}
+
+/* *************************************************************
+*  Week6 Additional Enhancement: Update Account Type (Admin only)
+* ************************************************************** */
+async function updateAccountType(req, res) {
+  const { account_id, account_type } = req.body;
+
+  try {
+    const result = await accountModel.updateAccountType(account_id, account_type);
+
+    if (result) {
+      req.flash("notice", `Account type updated to ${account_type}.`);
+    } else {
+      req.flash("notice", "Unable to update account type.");
+    }
+
+    res.redirect("/account/manage-types");
+  } catch (error) {
+    console.error("Error updating account type:", error);
+    req.flash("notice", "An error occurred while updating the account type.");
+    res.redirect("/account/manage-types");
+  }
+}
+
+module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildAccountHome, logoutAccount, buildAccountUpdate, updateAccount, changePassword, buildAccountTypePanel, updateAccountType }
